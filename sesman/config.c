@@ -367,11 +367,16 @@ config_read_sessions(int file, struct config_sessions *se, struct list *param_n,
         {
             se->max_disc_time = g_atoi((char *)list_get_item(param_v, i));
         }
+	if (0 == g_strcasecmp(buf, SESMAN_CFG_SESS_BY_USERNAME))
+	{
+		se->assign_by_username = g_atoi((char *)list_get_item(param_v, i));
+	}
     }
 
     /* printing security config */
     g_printf("session configuration:\r\n");
     g_printf("\tMaxSessions:                 %i\r\n", se->max_sessions);
+    g_printf("\tAssignSessionByUsername:     %i\r\n", se->assign_by_username);
     g_printf("\tX11DisplayOffset:            %i\r\n", se->x11_display_offset);
     g_printf("\tKillDisconnected:            %i\r\n", se->kill_disconnected);
     g_printf("\tIdleTimeLimit:               %i\r\n", se->max_idle_time);

@@ -63,6 +63,7 @@
 #define SESMAN_CFG_SESS_KILL_DISC    "KillDisconnected"
 #define SESMAN_CFG_SESS_IDLE_LIMIT   "IdleTimeLimit"
 #define SESMAN_CFG_SESS_DISC_LIMIT   "DisconnectedTimeLimit"
+#define SESMAN_CFG_SESS_BY_USERNAME  "AssignSessionByUsername"
 
 /**
  *
@@ -134,6 +135,11 @@ struct config_sessions
    * @brief enables automatic killing of disconnected session
    */
   int kill_disconnected;
+  /**
+   * @var assign_by_username
+   * @brief enables assigning sessions based on username only (geometry and depth information is ignored)
+   */
+  int assign_by_username;
 };
 
 /**
