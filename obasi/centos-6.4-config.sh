@@ -6,6 +6,8 @@ fi
 
 echo -n "Enter username for xrdp :"
 read username
+echo -n "Enter password for xrdp :"
+read password
 home_dir=`su ${username} -c 'echo $HOME'`
 
 #Make sure there is no DISPLAY environment variable defined
@@ -63,13 +65,18 @@ groupadd tsadmins
 usermod -G tsusers ${username}
 usermod -G tsadmins root
 
+#Set password for vnc connections
+mkdir ${home_dir}/.vnc
+chown ${username}:${username} ${home_dir}/.vnc
+
+echo ${password} | vncpasswd -f > ${home_dir}/.vnc/passwd
+chown ${username}:${username} ${home_dir}/.vnc/passwd
+
 #Edit the VNC Server
 echo "VNCSERVERS=\"1:${username}\"" >> /etc/sysconfig/vncservers
 echo "VNCSERVERARGS[1]=\"-geometry 1024x768 -depth 16\"" >> /etc/sysconfig/vncservers
 
 #Run VNC server to create xstartup script
-clear
-echo "Staring Xvnc, please enter ${username}'s password below :"
 /sbin/service vncserver start
 
 #Now to hook XRDP Server to the rc.local file
