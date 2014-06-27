@@ -66,11 +66,12 @@ usermod -G tsusers ${username}
 usermod -G tsadmins root
 
 #Set password for vnc connections
+mkdir ${home_dir}/.vnc
 echo ${password} | vncpasswd -f > ${home_dir}/.vnc/passwd
 
 #Edit the VNC Server
-echo -e 'VNCSERVERS="1:${username}"\n' >> /etc/sysconfig/vncservers
-echo 'VNCSERVERARGS[1]="-geometry 1024x768 -depth 16"' >> /etc/sysconfig/vncservers
+echo "VNCSERVERS=\"1:${username}\"" >> /etc/sysconfig/vncservers
+echo "VNCSERVERARGS[1]=\"-geometry 1024x768 -depth 16\"" >> /etc/sysconfig/vncservers
 
 #Run VNC server to create xstartup script
 /sbin/service vncserver start
