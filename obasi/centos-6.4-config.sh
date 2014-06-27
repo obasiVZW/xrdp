@@ -26,8 +26,8 @@ if [[ -n "${display}" ]]; then
 fi
 
 #Stop NX
-/sbin/chkconfig freenx-server off > /dev/null
-/etc/init.d/freenx-server stop > /dev/null
+/sbin/chkconfig freenx-server off &> /dev/null
+/etc/init.d/freenx-server stop &> /dev/null
 
 #Install/Update EPEL & RPMforge
 rpm -Uvh http://packages.sw.be/rpmforge-release/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
@@ -67,7 +67,10 @@ usermod -G tsadmins root
 
 #Set password for vnc connections
 mkdir ${home_dir}/.vnc
+chown ${username}:${username} ${home_dir}/.vnc
+
 echo ${password} | vncpasswd -f > ${home_dir}/.vnc/passwd
+chown ${username}:${username} ${home_dir}/.vnc/passwd
 
 #Edit the VNC Server
 echo "VNCSERVERS=\"1:${username}\"" >> /etc/sysconfig/vncservers
